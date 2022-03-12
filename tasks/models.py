@@ -1,6 +1,6 @@
 
 from django.db import models
-
+from datetime import datetime, timezone
 from django.contrib.auth.models import User
 
 STATUS_CHOICES = (
@@ -35,3 +35,8 @@ class TaskHistory(models.Model):
     old_status = models.CharField(max_length=100, choices=STATUS_CHOICES, default=STATUS_CHOICES[0][0])
     new_status = models.CharField(max_length=100, choices=STATUS_CHOICES, default=STATUS_CHOICES[0][0])
     time_of_change = models.DateTimeField(auto_now=True)
+
+class Report(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null = True, blank = True)
+    timing = models.IntegerField(default = 0)
+    last_report = models.DateTimeField(null=True, default=datetime.now(timezone.utc).replace(hour=0))
