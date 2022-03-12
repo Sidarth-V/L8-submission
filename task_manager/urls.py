@@ -42,7 +42,7 @@ urlpatterns = [
     path("user/logout", LogoutView.as_view()),
     path("complete_task/<pk>/", GenericTaskCompleteView.as_view()),
     path("completed_tasks/", GenericCompletedTaskView.as_view()),
-     path("report/", GenericReportView.as_view()),
+     path("report-settings/<pk>", GenericReportView.as_view()),
     path("", include(router.urls))
     # path("all_tasks/", all_tasks_view)
 ]

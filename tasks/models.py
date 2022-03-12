@@ -3,6 +3,9 @@ from django.db import models
 from datetime import datetime, timezone
 from django.contrib.auth.models import User
 
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+
 STATUS_CHOICES = (
     ("PENDING", "PENDING"),
     ("IN_PROGRESS", "IN_PROGRESS"),
@@ -40,3 +43,13 @@ class Report(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null = True, blank = True)
     timing = models.IntegerField(default = 0)
     last_report = models.DateTimeField(null=True, default=datetime.now(timezone.utc).replace(hour=0))
+
+@receiver(post_save, sender=User)
+def addReport(instance, **kwargs):
+    user = User.objects.get(pk=instance.id)
+    report = Report.objects.filter(user=user)
+    if report.count() <= 0:
+        Report.objects.create(
+            user=user,
+            timing=0
+        )

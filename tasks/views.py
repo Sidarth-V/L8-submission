@@ -108,8 +108,7 @@ class GenericTaskCompleteView(AuthorisedTaskManager, UpdateView):
     template_name = "task_complete.html"
     success_url = "/tasks"
 
-class GenericReportView(CreateView):
-    model = Report
+class GenericReportView(UpdateView):
     form_class = ReportForm
     template_name = "report.html"
     success_url = "/tasks"
